@@ -1,11 +1,12 @@
 from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return 'Welcome to QC Advisor'
+    return render_template("src/index.html")
 
 
 @app.route('/survey')
