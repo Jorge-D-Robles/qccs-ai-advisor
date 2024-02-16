@@ -689,6 +689,22 @@ video {
   height: 2rem;
 }
 
+.h-full {
+  height: 100%;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
+.h-11 {
+  height: 2.75rem;
+}
+
 .w-6 {
   width: 1.5rem;
 }
@@ -756,6 +772,10 @@ video {
   border-color: rgb(107 114 128 / 0.1);
 }
 
+.divide-gray-500\/25 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(107 114 128 / 0.25);
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -786,6 +806,16 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-gray-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+}
+
+.bg-indigo-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -798,6 +828,11 @@ video {
 
 .to-\[\#9089fc\] {
   --tw-gradient-to: #9089fc var(--tw-gradient-to-position);
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .p-1 {
@@ -957,8 +992,22 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
 .opacity-30 {
   opacity: 0.3;
+}
+
+.opacity-20 {
+  opacity: 0.2;
 }
 
 .shadow-sm {
@@ -975,6 +1024,10 @@ video {
 
 .ring-gray-900\/10 {
   --tw-ring-color: rgb(17 24 39 / 0.1);
+}
+
+.ring-white\/10 {
+  --tw-ring-color: rgb(255 255 255 / 0.1);
 }
 
 .blur-3xl {
@@ -996,8 +1049,22 @@ video {
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-gray-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-indigo-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
+}
+
 .hover\:ring-gray-900\/20:hover {
   --tw-ring-color: rgb(17 24 39 / 0.2);
+}
+
+.hover\:ring-white\/20:hover {
+  --tw-ring-color: rgb(255 255 255 / 0.2);
 }
 
 .focus-visible\:outline:focus-visible {
@@ -1014,6 +1081,10 @@ video {
 
 .focus-visible\:outline-indigo-600:focus-visible {
   outline-color: #4f46e5;
+}
+
+.focus-visible\:outline-indigo-400:focus-visible {
+  outline-color: #818cf8;
 }
 
 @media (min-width: 640px) {
@@ -1071,6 +1142,10 @@ video {
 
   .sm\:ring-gray-900\/10 {
     --tw-ring-color: rgb(17 24 39 / 0.1);
+  }
+
+  .sm\:ring-white\/10 {
+    --tw-ring-color: rgb(255 255 255 / 0.1);
   }
 }
 
