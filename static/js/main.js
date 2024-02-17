@@ -52,33 +52,245 @@ let currentState = 0;
 let currentAnswer = "";
 const states = [
   {
-    title: "Question 1",
-    paragraph: "What is your primary goal?",
+    title: "Welcome!",
+    paragraph: "What is your name?",
     inputType: "text",
     placeholder: "Type your answer...",
-    onNext: () => transitionToState(1),
+    onNext: () => {
+      const input = hero.querySelector('input[type="text"]');
+      if (input) {
+        promptText = `My name is ${input.value}. `;
+      }
+      transitionToState(1, promptText);
+    },
   },
   {
-    title: "Question 2",
-    paragraph: "How often do you use our product?",
-    inputType: "text",
-    placeholder: "Type your answer...",
-    onNext: () => transitionToState(2),
+    title: "Figuring out your needs...",
+    paragraph: "How many semesters do you have left?",
+    inputType: "dropdown",
+    options: [
+      { label: "1", value: "1" },
+      { label: "2", value: "2" },
+      { label: "3", value: "3" },
+      { label: "4", value: "4" },
+      { label: "5", value: "5" },
+      { label: "6", value: "6" },
+      { label: "7", value: "7" },
+      { label: "8", value: "8" },
+    ],
+    onNext: () => {
+      const dropdownButton = hero.querySelector("button");
+      if (dropdownButton) {
+        promptText = `I have ${dropdownButton.textContent.trim()} semesters left. `;
+      }
+      transitionToState(2, promptText);
+    },
   },
   {
-    title: "Question 3",
-    paragraph: "Choose your preferred option:",
+    title: "Figuring out your needs...",
+    paragraph:
+      "Are you pursuing a BA (Bachelor of Arts) or BS (Bachelor of Science)?",
     inputType: "radio",
     options: [
-      { label: "Option 1", value: "GPT prompt text for option 1" },
-      { label: "Option 2", value: "GPT prompt text for option 2" },
+      {
+        label: "BA (Bachelor of Arts) in Computer Science",
+        value: "BA (Bachelor of Arts) in Computer Science",
+      },
+      {
+        label: "BS (Bachelor of Science) in Computer Science",
+        value: "BS (Bachelor of Science) in Computer Science",
+      },
       // Add more options as needed
     ],
-    onNext: () => transitionToState(3), // Adjust the index as per your sequence
+    onNext: () => {
+      const chosenOption = hero.querySelector('input[type="radio"]:checked');
+      promptText = `I am pursuing a ${chosenOption.labels[0].textContent}. `;
+      transitionToState(3, promptText);
+    }, // Adjust the index as per your sequence
   },
+  {
+    title: "CS Courses taken...",
+    paragraph:
+      "Select the REQUIRED/NON ELECTIVE Computer Science courses you have taken so far.",
+    inputType: "checkbox",
+    options: [
+      { label: "CSCI 111", value: "CSCI 111" },
+      { label: "CSCI 211", value: "CSCI 211" },
+      { label: "CSCI 212", value: "CSCI 212" },
+      { label: "CSCI 220", value: "CSCI 220" },
+      { label: "CSCI 240", value: "CSCI 240" },
+      { label: "CSCI 313", value: "CSCI 313" },
+      { label: "CSCI 316", value: "CSCI 316" },
+      { label: "CSCI 320", value: "CSCI 320" },
+      { label: "CSCI 323", value: "CSCI 323" },
+      { label: "CSCI 331", value: "CSCI 331" },
+      { label: "CSCI 340", value: "CSCI 340" },
+      { label: "CSCI 343", value: "CSCI 343" },
+      { label: "CSCI 370", value: "CSCI 370" },
+    ],
+    onNext: () => {
+      promptText = `I have taken the following Computer Science courses: `;
+      const checkboxes = hero.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          promptText += `${checkbox.labels[0].textContent}, `;
+        }
+      });
+      // remove the last "," and replace with a "."
+      promptText = promptText.slice(0, -2) + ". ";
+
+      transitionToState(4, promptText);
+    }, // Adjust the index as per your sequence
+  },
+  {
+    title: "Math Courses taken...",
+    paragraph:
+      "Select the REQUIRED/NON ELECTIVE Math courses you have taken so far. Note: You cannot take MATH 141-142-143 if you have taken MATH 151-152 and vice-versa.",
+    inputType: "checkbox",
+    options: [
+      { label: "MATH 120", value: "MATH 120" },
+      { label: "MATH 141", value: "MATH 141" },
+      { label: "MATH 142", value: "MATH 142" },
+      { label: "MATH 143", value: "MATH 143" },
+      { label: "MATH 151", value: "MATH 151" },
+      { label: "MATH 152", value: "MATH 152" },
+      { label: "MATH 231", value: "MATH 231" },
+      { label: "MATH 241", value: "MATH 241" },
+    ],
+    onNext: () => {
+      promptText = `I have taken the following Math courses: `;
+      const checkboxes = hero.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          promptText += `${checkbox.labels[0].textContent}, `;
+        }
+      });
+      // remove the last "," and replace with a "."
+      promptText = promptText.slice(0, -2) + ". ";
+
+      transitionToState(5, promptText);
+    },
+  },
+  {
+    title: "Computer Science electives taken...",
+    paragraph:
+      "How many Computer Science Electives have you completed? (Note: You need 3 or 7 to graduate for BA or BS, respectively)",
+    inputType: "dropdown",
+    options: [
+      { label: "0", value: "0" },
+      { label: "1", value: "1" },
+      { label: "2", value: "2" },
+      { label: "3", value: "3" },
+      { label: "4", value: "4" },
+      { label: "5", value: "5" },
+      { label: "6", value: "6" },
+      { label: "7", value: "7" },
+    ],
+    onNext: () => {
+      const dropdownButton = hero.querySelector("button");
+      if (dropdownButton) {
+        promptText = `I have completed ${dropdownButton.textContent.trim()} Computer Science Electives. `;
+      }
+      transitionToState(6, promptText);
+    },
+  },
+  {
+    title: "Math Rigour...",
+    paragraph:
+      "What is your comfort level with Math? Choose either comfortable or uncomfortable. Note: We will recommend different Calculus courses based on your answer.",
+    inputType: "radio",
+    options: [
+      { label: "Comfortable", value: "Comfortable" },
+      { label: "Uncomfortable", value: "Uncomfortable" },
+    ],
+    onNext: () => {
+      const chosenOption = hero.querySelector('input[type="radio"]:checked');
+      promptText = `I am ${chosenOption.labels[0].textContent} with Math. `;
+      transitionToState(7, promptText);
+    },
+  },
+  {
+    title: "General Education Requirements...",
+    paragraph:
+      "How many general education courses have you completed? You need around 16 to graduate.",
+    inputType: "dropdown",
+    options: [
+      { label: "0", value: "0" },
+      { label: "1", value: "1" },
+      { label: "2", value: "2" },
+      { label: "3", value: "3" },
+      { label: "4", value: "4" },
+      { label: "5", value: "5" },
+      { label: "6", value: "6" },
+      { label: "7", value: "7" },
+      { label: "8", value: "8" },
+      { label: "9", value: "9" },
+      { label: "10", value: "10" },
+      { label: "11", value: "11" },
+      { label: "12", value: "12" },
+      { label: "13", value: "13" },
+      { label: "14", value: "14" },
+      { label: "15", value: "15" },
+      { label: "16", value: "16" },
+    ],
+    onNext: () => {
+      const dropdownButton = hero.querySelector("button");
+      if (dropdownButton) {
+        promptText = `I have completed ${dropdownButton.textContent.trim()} general education courses. `;
+      }
+      transitionToState(8, promptText);
+    },
+  },
+  {
+    title: "GPA...",
+    paragraph:
+      "When being recommend courses, would you like to prioritize the average GPA of the course given by a specific professor?",
+    inputType: "radio",
+    options: [
+      { label: "Yes", value: "Yes" },
+      { label: "No", value: "No" },
+    ],
+    onNext: () => {
+      const chosenOption = hero.querySelector('input[type="radio"]:checked');
+      if (chosenOption.labels[0].textContent === "No") {
+        promptText = `I would not like to prioritize the average GPA of the course given by a specific professor. `;
+        transitionToState(9, promptText);
+      } else {
+        promptText = `I would like to prioritize the average GPA of the course given by a specific professor. `;
+        transitionToState(9, promptText);
+      }
+    },
+  },
+  {
+    title: "How you feel about the course load...",
+    paragraph:
+      "Do you consider yourself to be currently struggling in school? Note: We will recommend different courses based on your answer.",
+    inputType: "radio",
+    options: [
+      { label: "I struggle heavily with school. Please suggest only 1-2 CS classes at a time", value: "I struggle heavily with school. Please suggest only 1-2 CS classes at a time" },
+      { label: "I struggle a bit with school. I can take on 2 CS classes at a time.", value: "I struggle a bit with school. I can take on 2 CS classes at a time" },
+      {
+        label: "I consider myself an average student. I can take on 3 CS classes at a time",
+        value: "I consider myself an average student. I can take on 3 CS classes at a time",
+      },
+      {
+        label: "I am willing to take on up to 4-5 CS classes and do not struggle in my CS courses",
+        value: "I am willing to take on up to 4-5 CS classes and do not struggle in my CS courses",
+      },
+    ],
+    onNext: () => {
+      const chosenOption = hero.querySelector('input[type="radio"]:checked');
+
+      promptText = `${chosenOption.labels[0].textContent}. `;
+      transitionToState(10, promptText);
+    },
+  },
+  
 ];
 
-function transitionToState(index) {
+function transitionToState(index, promptText = "") {
+  currentAnswer += promptText;
+  console.log(currentAnswer);
   currentState = index;
   const state = states[index];
   updateHeroContent({
@@ -196,100 +408,253 @@ function updateHeroContent({
   buttonId,
   onNext,
 }) {
-  // Clear existing content and set up the hero section.
-  hero.innerHTML = "";
-  hero.classList.add(
-    "flex",
-    "flex-col",
-    "items-center",
-    "justify-center",
-    "h-full"
-  );
-
-  // Append title.
-  if (titleText) {
-    const title = document.createElement("h2");
-    title.textContent = titleText;
-    title.classList.add("text-xl", "font-bold");
-    hero.appendChild(title);
-  }
-
-  // Append paragraph.
-  if (paragraphText) {
-    const paragraph = document.createElement("p");
-    paragraph.textContent = paragraphText;
-    paragraph.classList.add("mt-4");
-    hero.appendChild(paragraph);
-  }
-
-  let actionButton; // Declare outside so it's accessible for enabling/disabling.
-
-  // Handle input creation based on type.
-  if (inputType === "text") {
-    // Create a text input.
-    const input = document.createElement("input");
-    input.type = inputType;
-    input.placeholder = inputPlaceholder || "";
-    input.classList.add(
-      "mt-4",
-      "p-2",
-      "border",
-      "border-gray-300",
-      "rounded-md"
-    );
-    hero.appendChild(input);
-
-    input.addEventListener("input", () => {
-      actionButton.disabled = input.value.trim() === "";
-    });
-  } else if (inputType === "radio" || inputType === "checkbox") {
-    // Handle radio or checkbox options.
-    const optionsContainer = document.createElement("div");
-    options.forEach((option, index) => {
-      const inputId = `${inputType}-${index}`;
-      const optionInput = document.createElement("input");
-      optionInput.type = inputType;
-      optionInput.id = inputId;
-      optionInput.name = inputType + "Group";
-      optionInput.value = option.value;
-
-      const label = document.createElement("label");
-      label.htmlFor = inputId;
-      label.textContent = option.label;
-      label.classList.add("ml-2");
-
-      const optionContainer = document.createElement("div");
-      optionContainer.appendChild(optionInput);
-      optionContainer.appendChild(label);
-      optionsContainer.appendChild(optionContainer);
-    });
-    hero.appendChild(optionsContainer);
-
-    // Enable the Next button when any option is selected.
-    optionsContainer.addEventListener("change", () => {
-      actionButton.disabled = !optionsContainer.querySelector(
-        `input[type="${inputType}"]:checked`
-      );
-    });
-  }
-
-  // Create the Next button.
-  actionButton = document.createElement("button");
-  actionButton.textContent = buttonText;
-  actionButton.id = buttonId;
-  actionButton.disabled = true; // Initially disabled.
-  buttonClasses.forEach((cls) => actionButton.classList.add(cls));
-  hero.appendChild(actionButton);
-
-  actionButton.addEventListener("click", () => {
-    if (typeof onNext === "function") {
-      onNext(); // Proceed to the next state if validation passes.
-    }
-  });
-
-  // Fade-in logic.
+  // Start fade-out animation
   hero.classList.add("opacity-0");
   setTimeout(() => {
-    hero.classList.remove("opacity-0");
-  }, 10);
+    // Clear existing content and set up the hero section after fade-out
+    hero.innerHTML = "";
+    hero.classList.add(
+      "flex",
+      "flex-col",
+      "items-center",
+      "justify-center",
+      "h-full"
+    );
+
+    // Append title
+    if (titleText) {
+      const title = document.createElement("h2");
+      title.textContent = titleText;
+      title.classList.add("text-xl", "font-bold");
+      hero.appendChild(title);
+    }
+
+    // Append paragraph
+    if (paragraphText) {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = paragraphText;
+      paragraph.classList.add("mt-4");
+      hero.appendChild(paragraph);
+    }
+
+    // Handle input creation based on type
+    if (inputType === "text") {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = inputPlaceholder || "";
+      input.classList.add(
+        "mt-4",
+        "p-2",
+        "border",
+        "border-gray-300",
+        "rounded-md",
+        "w-full"
+      );
+      hero.appendChild(input);
+
+      // Event listener for enabling the action button when text is entered
+      input.addEventListener("input", () => {
+        actionButton.disabled = input.value.trim() === "";
+      });
+    } // Updated section for handling radio buttons and checkboxes
+    else if (inputType === "dropdown" && options) {
+      // Create the dropdown container
+      const dropdownContainer = document.createElement("div");
+      dropdownContainer.classList.add("relative", "inline-block", "text-left");
+
+      // Dropdown button
+      const dropdownButton = document.createElement("button");
+      dropdownButton.setAttribute("type", "button");
+      dropdownButton.classList.add(
+        "inline-flex",
+        "justify-center",
+        "rounded-md",
+        "bg-white",
+        "px-4",
+        "py-2",
+        "text-sm",
+        "font-medium",
+        "text-gray-700",
+        "shadow-sm",
+        "ring-1",
+        "ring-gray-300",
+        "hover:bg-gray-50",
+        "w-48"
+      ); // Adjust width as needed
+      let buttonText = "Options"; // Initial button text
+      dropdownButton.innerHTML = `${buttonText} <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>`;
+
+      dropdownContainer.appendChild(dropdownButton);
+
+      // Dropdown menu
+      const dropdownMenu = document.createElement("div");
+      dropdownMenu.classList.add(
+        "hidden",
+        "absolute",
+        "z-10",
+        "mt-2",
+        "w-48",
+        "origin-top-right",
+        "rounded-md",
+        "bg-white",
+        "shadow-lg",
+        "ring-1",
+        "ring-black",
+        "ring-opacity-5",
+        "focus:outline-none"
+      ); // Adjust width to match button
+      dropdownMenu.setAttribute("role", "menu");
+      dropdownMenu.setAttribute("aria-orientation", "vertical");
+      dropdownMenu.setAttribute("aria-labelledby", "menu-button");
+
+      options.forEach((option, index) => {
+        const optionLink = document.createElement("a");
+        optionLink.href = "#";
+        optionLink.classList.add(
+          "text-gray-700",
+          "block",
+          "px-4",
+          "py-2",
+          "text-sm",
+          "hover:bg-gray-100",
+          "hover:text-gray-900"
+        );
+        optionLink.setAttribute("role", "menuitem");
+        optionLink.textContent = option.label;
+        optionLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          dropdownMenu.classList.add("hidden"); // Hide dropdown menu on selection
+          dropdownButton.innerHTML = `${option.label} <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>`; // Update button text to selected option
+          actionButton.disabled = false; // Optionally, enable the action button
+        });
+        dropdownMenu.appendChild(optionLink);
+      });
+
+      dropdownContainer.appendChild(dropdownMenu);
+      hero.appendChild(dropdownContainer);
+
+      // Event listener for opening/closing the dropdown
+      dropdownButton.addEventListener("click", () => {
+        dropdownMenu.classList.toggle("hidden");
+      });
+    } else if (inputType === "radio" && options) {
+      // Radio buttons
+      const fieldset = document.createElement("fieldset");
+      const legend = document.createElement("legend");
+
+      fieldset.appendChild(legend);
+
+      options.forEach((option, index) => {
+        const radioContainer = document.createElement("div");
+        radioContainer.classList.add("flex", "items-center", "mt-4", "mb-4");
+
+        const input = document.createElement("input");
+        input.id = `${buttonId}-${index}`;
+        input.name = buttonId; // Ensure all radios have the same name
+        input.type = "radio";
+        input.classList.add(
+          "h-4",
+          "w-4",
+          "text-red-600",
+          "focus:ring-red-500",
+          "border-gray-300"
+        );
+
+        const label = document.createElement("label");
+        label.htmlFor = `${buttonId}-${index}`;
+        label.textContent = option.label;
+        label.classList.add("ml-4", "block", "text-base");
+
+        radioContainer.appendChild(input);
+        radioContainer.appendChild(label);
+        fieldset.appendChild(radioContainer);
+      });
+
+      hero.appendChild(fieldset);
+
+      // Corrected: Setting the event listener for enabling the Next button
+      fieldset.addEventListener("change", () => {
+        actionButton.disabled = !fieldset.querySelector(
+          'input[type="radio"]:checked'
+        );
+      });
+    } else if (inputType === "checkbox" && options) {
+      // Checkboxes
+      const div = document.createElement("div");
+      div.classList.add("space-y-4");
+
+      options.forEach((option, index) => {
+        const checkboxContainer = document.createElement("div");
+        checkboxContainer.classList.add("flex", "items-start", "mt-4", "mb-4");
+
+        const input = document.createElement("input");
+        input.id = `${buttonId}-${index}`;
+        input.name = option.label; // Unique name for each checkbox
+        input.type = "checkbox";
+        input.classList.add(
+          "h-4",
+          "w-4",
+          "text-red-600",
+          "focus:ring-red-500",
+          "border-gray-300",
+          "rounded"
+        );
+
+        const label = document.createElement("label");
+        label.htmlFor = `${buttonId}-${index}`;
+        label.textContent = option.label;
+        label.classList.add("ml-4", "text-base");
+
+        checkboxContainer.appendChild(input);
+        checkboxContainer.appendChild(label);
+        div.appendChild(checkboxContainer);
+      });
+
+      hero.appendChild(div);
+
+      // Corrected: Setting the event listener for enabling the Next button
+      div.addEventListener("change", () => {
+        const checkboxes = div.querySelectorAll('input[type="checkbox"]');
+        actionButton.disabled = ![...checkboxes].some(
+          (checkbox) => checkbox.checked
+        );
+      });
+    }
+
+    // Create the action button
+    const actionButton = document.createElement("button");
+    actionButton.textContent = buttonText;
+    actionButton.id = buttonId;
+    actionButton.classList.add(
+      "mt-4",
+      "px-6",
+      "py-5",
+      "bg-red-600",
+      "text-white",
+      "font-medium",
+      "text-sm",
+      "rounded-md",
+      "shadow-sm",
+      "hover:bg-red-700",
+      "focus:outline-none",
+      "focus:ring-2",
+      "focus:ring-indigo-500",
+      "focus:ring-offset-2",
+      "disabled:opacity-50"
+    );
+    actionButton.disabled = true; // Initially disabled
+    hero.appendChild(actionButton);
+
+    // Event listener for the action button
+    actionButton.addEventListener("click", () => {
+      if (typeof onNext === "function") {
+        onNext();
+      }
+    });
+
+    // Fade-in the hero section smoothly with the new content
+    setTimeout(() => {
+      hero.classList.remove("opacity-0");
+    }, 10); // A short delay to ensure the opacity change triggers a transition
+  }, 300); // Delay for fade-out to complete
 }
