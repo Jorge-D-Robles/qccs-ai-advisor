@@ -307,6 +307,14 @@ const states = [
     inputType: "button",
     onNext: () => {
       const button = hero.querySelector("button");
+      const headerData = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: currentAnswer }),
+      };
+
       if (button) {
         button.textContent = "Loading...";
         button.disabled = true;
@@ -315,13 +323,22 @@ const states = [
           // clear the hero section
           hero.innerHTML = "";
           // render test.md content in hero section, by importing the markdown file
-          fetch("./test.md")
-            .then((response) => response.text())
-            .then((text) => {
+          fetch("/result", headerData)
+            .then((response) => response.json())
+            .then((response) => {
+              text = response["assistant_response"];
+              console.log(`${text}`);
               hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
                 text
               )}</article>`;
-            });
+            })
+            .catch((error) => console.log(error));
+          // .then((response) => response.text())
+          // .then((text) => {
+          //   hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
+          //     text
+          //   )}</article>`;
+          // });
         }, 1000);
       }
     },
