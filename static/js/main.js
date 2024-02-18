@@ -320,22 +320,38 @@ const states = [
       if (button) {
         button.textContent = "Loading...";
         button.disabled = true;
-        // Simulate a delay for loading
-        setTimeout(() => {
-          // clear the hero section
-          hero.innerHTML = "";
-          // render test.md content in hero section, by importing the markdown file
-          fetch("/result", headerData)
-            .then((response) => response.json())
-            .then((response) => {
-              text = response["assistant_response"];
-              console.log(`${text}`);
-              hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
-                text
-              )}</article>`;
-            })
-            .catch((error) => console.log(error));
-        }, 250);
+
+        // Display a loading message and a loader in the hero section
+        hero.innerHTML = `
+          <div class="text-center">
+            <p class="text-lg mb-6">Our AI is generating custom advice just for you! Please wait...</p>
+            <div class="flex justify-center items-center">
+              <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-red-500"></div>
+            </div>
+          </div>
+        `;
+
+        // Fetch the API response
+        fetch("/result", headerData)
+          .then((response) => response.json())
+          .then((response) => {
+            const text = response["assistant_response"];
+            // Display the API response using marked for markdown parsing
+            hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
+              text
+            )}</article>`;
+          })
+          .catch((error) => {
+            console.error(error);
+            // display an error message
+            hero.innerHTML =
+              "<p>Error loading data. Please try again later.</p>";
+          })
+          .finally(() => {
+            // Re-enable the button and potentially remove the loader after the operation is complete
+            button.textContent = "Done!";
+            button.disabled = false;
+          });
       }
     },
   },
