@@ -41,7 +41,7 @@ OPENAI_API_KEY=<your_openai_api_key>
 Ensure you have Python installed and then run:
 
 ```bash
-pip3 install flask python-dotenv openai
+pip3 install Flask python-dotenv openai
 ```
 
 Install Tailwind CSS via npm:
