@@ -297,7 +297,7 @@ const states = [
     onNext: () => {
       const chosenOption = hero.querySelector('input[type="radio"]:checked');
 
-      promptText = `${chosenOption.labels[0].textContent}. Please suggest a semester by semester plan for the remaining semesters I have left, giving me the most optimal courses to take while taking prerequisites into account. Please respond using markdown syntax, with your first line of your response being "#Your Personalized Course Plan" and the rest of your response being your plan. When displaying the course plan semester by semester, please format it into a table. Generate the table once, with professor suggestions and everything else. Generate one table per semester, with a title for each table being the semester number. Suggest one or more professors for each class if they have grade data in the grade distribution database provided. Do not suggest "Best Available" for professors if they have grade data in the grade distribution database provided. Use the prior historical data to suggest professors. If you have to choose one professor per class, choose the one with the highest average GPA. The second or third professors recommended could be in descending order of average GPA.`;
+      promptText = `${chosenOption.labels[0].textContent}. Please suggest a semester by semester plan for the remaining semesters I have left, giving me the most optimal courses to take while taking prerequisites into account. Please respond using markdown syntax, with your first line of your response being "#Your Personalized Course Plan" and the rest of your response being your plan. When displaying the course plan semester by semester, please format it into a table. Generate the table once, with professor suggestions and everything else. Generate one table per semester, with a title for each table being the semester number. Suggest one or more professors for each class if they have grade data in the grade distribution database provided. Do not suggest "Best Available" for professors if they have grade data in the grade distribution database provided. Use the prior historical data to suggest professors. If you have to choose one professor per class, choose the one with the highest average GPA. The second or third professors recommended could be in descending order of average GPA. Give general computer science advice tailored to my needs. If I am struggling with Math, suggest Khan Academy or Professor Leonard on Youtube as resources to improve. If I am struggling with computer science, suggest going to the learning commons at Kiely Hall for free tutoring or find resources such as Harvard's CS50x or MIT OpenCourseWare to supplement my learning. These suggestions should generally be given regardless. Write a full paragraph of general advice for computer science students with these ideas and suggestions in mind, using a approachable but professional tone for each semester.`;
       transitionToState(10, promptText);
     },
     initialButtonState: true, // Enable the button by default
@@ -335,13 +335,7 @@ const states = [
               )}</article>`;
             })
             .catch((error) => console.log(error));
-          // .then((response) => response.text())
-          // .then((text) => {
-          //   hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
-          //     text
-          //   )}</article>`;
-          // });
-        }, 500);
+        }, 250);
       }
     },
   },
