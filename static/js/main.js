@@ -114,6 +114,7 @@ const states = [
       "Select the REQUIRED/NON ELECTIVE Computer Science courses you have taken so far.",
     inputType: "checkbox",
     options: [
+      { label: "No classes taken", value: "No classes taken"},
       { label: "CSCI 111", value: "CSCI 111" },
       { label: "CSCI 211", value: "CSCI 211" },
       { label: "CSCI 212", value: "CSCI 212" },
@@ -148,6 +149,7 @@ const states = [
       "Select the REQUIRED/NON ELECTIVE Math courses you have taken so far. Note: You cannot take MATH 141-142-143 if you have taken MATH 151-152 and vice-versa.",
     inputType: "checkbox",
     options: [
+      { label: "No classes taken", value: "No classes taken"},
       { label: "MATH 120", value: "MATH 120" },
       { label: "MATH 141", value: "MATH 141" },
       { label: "MATH 142", value: "MATH 142" },
@@ -295,7 +297,7 @@ const states = [
     onNext: () => {
       const chosenOption = hero.querySelector('input[type="radio"]:checked');
 
-      promptText = `${chosenOption.labels[0].textContent}. Please suggest a semester by semester plan for the remaining semesters I have left, giving me the most optimal courses to take while taking prerequisites into account. Please respond using markdown syntax, with your first line of your response being "#Your Personalized Course Plan" and the rest of your response being your plan. When displaying the course plan semester by semester, please format it into a table. Generate the table once, with professor suggestions and everything else. Generate one table per semester, with a title for each table being the semester number. Suggest one or more professors for each class if they have grade data in the grade distribution database provided. Do not suggest "Best Available" for professors if they have grade data in the grade distribution database provided. Use the prior historical data to suggest professors. If you have to choose one professor per class, choose the one with the highest average GPA. The second or third professors recommended could be in descending order of average GPA. If a class has no grade data in the grade distribution database, suggest "Best Available" for professors.`;
+      promptText = `${chosenOption.labels[0].textContent}. Please suggest a semester by semester plan for the remaining semesters I have left, giving me the most optimal courses to take while taking prerequisites into account. Please respond using markdown syntax, with your first line of your response being "#Your Personalized Course Plan" and the rest of your response being your plan. When displaying the course plan semester by semester, please format it into a table. Generate the table once, with professor suggestions and everything else. Generate one table per semester, with a title for each table being the semester number. Suggest one or more professors for each class if they have grade data in the grade distribution database provided. Do not suggest "Best Available" for professors if they have grade data in the grade distribution database provided. Use the prior historical data to suggest professors. If you have to choose one professor per class, choose the one with the highest average GPA. The second or third professors recommended could be in descending order of average GPA.`;
       transitionToState(10, promptText);
     },
     initialButtonState: true, // Enable the button by default
