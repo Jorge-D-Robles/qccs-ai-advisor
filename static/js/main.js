@@ -17,7 +17,7 @@ const closeModal = () => {
   modalOverlay.classList.add("hidden");
 };
 
-// Open modal event (if you have a button or another element to open the modal)
+// Open modal event
 if (modalOpen) {
   modalOpen.addEventListener("click", openModal);
 }
@@ -100,13 +100,12 @@ const states = [
         label: "BS (Bachelor of Science) in Computer Science",
         value: "BS (Bachelor of Science) in Computer Science",
       },
-      // Add more options as needed
     ],
     onNext: () => {
       const chosenOption = hero.querySelector('input[type="radio"]:checked');
       promptText = `I am pursuing a ${chosenOption.labels[0].textContent}. `;
       transitionToState(3, promptText);
-    }, // Adjust the index as per your sequence
+    },
   },
   {
     title: "CS Courses taken...",
@@ -141,7 +140,7 @@ const states = [
       promptText = promptText.slice(0, -2) + ". ";
 
       transitionToState(4, promptText);
-    }, // Adjust the index as per your sequence
+    },
   },
   {
     title: "Math Courses taken...",
@@ -340,6 +339,18 @@ const states = [
             hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
               text
             )}</article>`;
+            // Create a button element
+            const button = document.createElement("button");
+            // Add the desired classes to the button
+            button.classList.add(...defaultButtonClasses);
+            // Set the button text
+            button.textContent = "Back To Home";
+            // Add an event listener to the button that changes the window location to '/' when the button is clicked
+            button.addEventListener("click", () => {
+              window.location.href = "/";
+            });
+            // Append the button to the hero element
+            hero.appendChild(button);
           })
           .catch((error) => {
             console.error(error);
@@ -664,7 +675,7 @@ function updateHeroContent({
 
       hero.appendChild(fieldset);
 
-      // Corrected: Setting the event listener for enabling the Next button
+      // Setting the event listener for enabling the Next button
       fieldset.addEventListener("change", () => {
         actionButton.disabled = !fieldset.querySelector(
           'input[type="radio"]:checked'
@@ -707,7 +718,7 @@ function updateHeroContent({
 
       hero.appendChild(div);
 
-      // Corrected: Setting the event listener for enabling the Next button
+      // Setting the event listener for enabling the Next button
       div.addEventListener("change", () => {
         const checkboxes = div.querySelectorAll('input[type="checkbox"]');
         actionButton.disabled = ![...checkboxes].some(
