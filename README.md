@@ -44,7 +44,12 @@ Ensure you have Python installed and then run:
 pip3 install flask python-dotenv openai
 ```
 
-4. **Run the Application**
+Install Tailwind CSS via npm:
+
+```bash
+npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
+```
+1. **Run the Application**
 
 ```bash
 flask --app advisor run
