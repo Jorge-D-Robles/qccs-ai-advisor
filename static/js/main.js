@@ -114,7 +114,7 @@ const states = [
       "Select the REQUIRED/NON ELECTIVE Computer Science courses you have taken so far.",
     inputType: "checkbox",
     options: [
-      { label: "No classes taken", value: "No classes taken"},
+      { label: "No classes taken", value: "No classes taken" },
       { label: "CSCI 111", value: "CSCI 111" },
       { label: "CSCI 211", value: "CSCI 211" },
       { label: "CSCI 212", value: "CSCI 212" },
@@ -149,7 +149,7 @@ const states = [
       "Select the REQUIRED/NON ELECTIVE Math courses you have taken so far. Note: You cannot take MATH 141-142-143 if you have taken MATH 151-152 and vice-versa.",
     inputType: "checkbox",
     options: [
-      { label: "No classes taken", value: "No classes taken"},
+      { label: "No classes taken", value: "No classes taken" },
       { label: "MATH 120", value: "MATH 120" },
       { label: "MATH 141", value: "MATH 141" },
       { label: "MATH 142", value: "MATH 142" },
@@ -341,7 +341,7 @@ const states = [
           //     text
           //   )}</article>`;
           // });
-        }, 1000);
+        }, 500);
       }
     },
   },
