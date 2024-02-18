@@ -267,25 +267,65 @@ const states = [
       "Do you consider yourself to be currently struggling in school? Note: We will recommend different courses based on your answer.",
     inputType: "radio",
     options: [
-      { label: "I struggle heavily with school. Please suggest only 1-2 CS classes at a time", value: "I struggle heavily with school. Please suggest only 1-2 CS classes at a time" },
-      { label: "I struggle a bit with school. I can take on 2 CS classes at a time.", value: "I struggle a bit with school. I can take on 2 CS classes at a time" },
       {
-        label: "I consider myself an average student. I can take on 3 CS classes at a time",
-        value: "I consider myself an average student. I can take on 3 CS classes at a time",
+        label:
+          "I struggle heavily with school. Please suggest only 1-2 CS classes at a time",
+        value:
+          "I struggle heavily with school. Please suggest only 1-2 CS classes at a time",
       },
       {
-        label: "I am willing to take on up to 4-5 CS classes and do not struggle in my CS courses",
-        value: "I am willing to take on up to 4-5 CS classes and do not struggle in my CS courses",
+        label:
+          "I struggle a bit with school. I can take on 2 CS classes at a time.",
+        value:
+          "I struggle a bit with school. I can take on 2 CS classes at a time",
+      },
+      {
+        label:
+          "I consider myself an average student. I can take on 3 CS classes at a time",
+        value:
+          "I consider myself an average student. I can take on 3 CS classes at a time",
+      },
+      {
+        label:
+          "I am willing to take on up to 4-5 CS classes and do not struggle in my CS courses",
+        value:
+          "I am willing to take on up to 4-5 CS classes and do not struggle in my CS courses",
       },
     ],
     onNext: () => {
       const chosenOption = hero.querySelector('input[type="radio"]:checked');
 
-      promptText = `${chosenOption.labels[0].textContent}. `;
+      promptText = `${chosenOption.labels[0].textContent}. Please suggest a semester by semester plan for the remaining semesters I have left, giving me the most optimal courses to take while taking prerequisites into account. Please respond using markdown syntax, with your first line of your response being "#Your Personalized Course Plan" and the rest of your response being your plan. When displaying the course plan semester by semester, please format it into a table. Generate the table once, with professor suggestions and everything else. Generate one table per semester, with a title for each table being the semester number. Suggest one or more professors for each class if they have grade data in the grade distribution database provided.`;
       transitionToState(10, promptText);
     },
+    initialButtonState: true, // Enable the button by default
   },
-  
+  {
+    title: "Almost Ready!",
+    paragraph:
+      "We have all the information we need. Click the button below to receive your personalized course plan.",
+    inputType: "button",
+    onNext: () => {
+      const button = hero.querySelector("button");
+      if (button) {
+        button.textContent = "Loading...";
+        button.disabled = true;
+        // Simulate a delay for loading
+        setTimeout(() => {
+          // clear the hero section
+          hero.innerHTML = "";
+          // render test.md content in hero section, by importing the markdown file
+          fetch("./test.md")
+            .then((response) => response.text())
+            .then((text) => {
+              hero.innerHTML = `<article class="markdown prose prose-sm sm:prose lg:prose-lg xl:prose-xl">${marked.parse(
+                text
+              )}</article>`;
+            });
+        }, 1000);
+      }
+    },
+  },
 ];
 
 function transitionToState(index, promptText = "") {
@@ -407,6 +447,7 @@ function updateHeroContent({
   buttonText,
   buttonId,
   onNext,
+  initialButtonState = false, // By default, buttons are disabled until an action makes them active
 }) {
   // Start fade-out animation
   hero.classList.add("opacity-0");
@@ -436,6 +477,28 @@ function updateHeroContent({
       paragraph.classList.add("mt-4");
       hero.appendChild(paragraph);
     }
+    // Create the action button
+    const actionButton = document.createElement("button");
+    actionButton.textContent = buttonText;
+    actionButton.id = buttonId;
+    actionButton.classList.add(
+      "mt-4",
+      "px-6",
+      "py-5",
+      "bg-red-600",
+      "text-white",
+      "font-medium",
+      "text-sm",
+      "rounded-md",
+      "shadow-sm",
+      "hover:bg-red-700",
+      "focus:outline-none",
+      "focus:ring-2",
+      "focus:ring-indigo-500",
+      "focus:ring-offset-2",
+      "disabled:opacity-50"
+    );
+    actionButton.disabled = !initialButtonState; // Set based on initialButtonState parameter
 
     // Handle input creation based on type
     if (inputType === "text") {
@@ -578,6 +641,9 @@ function updateHeroContent({
           'input[type="radio"]:checked'
         );
       });
+    } else if (inputType === "button") {
+      // don't add anything, just make action button instantly available
+      actionButton.disabled = false;
     } else if (inputType === "checkbox" && options) {
       // Checkboxes
       const div = document.createElement("div");
@@ -621,30 +687,7 @@ function updateHeroContent({
       });
     }
 
-    // Create the action button
-    const actionButton = document.createElement("button");
-    actionButton.textContent = buttonText;
-    actionButton.id = buttonId;
-    actionButton.classList.add(
-      "mt-4",
-      "px-6",
-      "py-5",
-      "bg-red-600",
-      "text-white",
-      "font-medium",
-      "text-sm",
-      "rounded-md",
-      "shadow-sm",
-      "hover:bg-red-700",
-      "focus:outline-none",
-      "focus:ring-2",
-      "focus:ring-indigo-500",
-      "focus:ring-offset-2",
-      "disabled:opacity-50"
-    );
-    actionButton.disabled = true; // Initially disabled
     hero.appendChild(actionButton);
-
     // Event listener for the action button
     actionButton.addEventListener("click", () => {
       if (typeof onNext === "function") {
