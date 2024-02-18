@@ -23,10 +23,16 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """
-    Display the index page that will gather student metadata and then call the endpoint.
+    Display the index page accessible at the root URL.
     """
     return render_template("src/index.html")
 
+@app.route('/about')
+def about():
+    """
+    Display the about page accessible at '/about' URL.
+    """
+    return render_template("src/about.html")
 
 @app.route('/result', methods=['POST'])
 def result():
